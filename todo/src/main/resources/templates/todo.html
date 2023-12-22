@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+    <style>
+        table {
+            width: 20%;
+            border-collapse: collapse;
+            margin: 20px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            white-space: nowrap; /* 텍스트가 길어질 때 줄 바꿈을 막습니다. */
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+	<a href="/logout">로그아웃</a>
+	<a href="/searchUser">유저 검색하기</a>
+	<h3 th:text="${loginUser.nickname} + '님 환영합니다'"></h3>
+	<form action="/insTodo" method="post">
+		<label for="datePicker">Select a date:</label>
+        <input type="date" id="date" name="date" th:value="${#temporals.format(currentDate, 'yyyy-MM-dd')}" />
+	    <label for="todo">todo:</label>
+	    <input type="text" id="task" name="task" />
+	    <button type="submit">추가</button>
+	</form>
+	
+	<h1>TODOLIST</h1>
+	<table border="1" th:each="entry: ${todoMap}">
+		<thead>
+            <tr>
+        		<th th:text="${#temporals.format(entry.key, 'yyyy-MM-dd')}"></th>
+            </tr>
+        </thead>
+        <tbody>
+        	<tr>
+        		<td>
+        			<ul>
+        				<li th:each="todoDTO : ${entry.value}">
+        					<span th:text="${todoDTO.task}"></span>
+        					<button class="delBtn" th:attr="data-todo-id=${todoDTO.todoId}">X</button>
+        				</li>
+        			</ul>
+        		</td>
+        	</tr>
+        </tbody>
+	</table>
+<script>
+	document.querySelectorAll(".delBtn").forEach(function(delBtn) {
+		delBtn.addEventListener('click', function(event) {
+			deleteTodo(delBtn.dataset.todoId);
+		})
+	})
+	
+	function deleteTodo(todoId) {
+		location.href="/delTodo?todoId=" + todoId;
+	}
+</script>
+</body>
+</html>

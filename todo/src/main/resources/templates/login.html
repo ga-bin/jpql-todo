@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="/login" method="post">
+	    <label for="id">id:</label>
+	    <input type="text" id="id" name="id" />
+	    <label for="password">password:</label>
+	    <input type="password" id="password" name="password" />
+	    <button type="submit">로그인</button>
+	</form>
+		<button id="signInBtn">회원가입</button>
+<script>
+	document.querySelector('#signInBtn').addEventListener('click', function() {
+		location.href="/signIn";
+	})
+</script>
+</body>
+</html>
